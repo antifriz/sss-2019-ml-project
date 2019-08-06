@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--    https://teamtreehouse.com/community/meta-charsetutf8-what-does-this-mean-or-what-does-it-do-i-deleted-it-from-the-code-and-nothing-changed-->
+    <meta charset=utf-8>
+
+<!--    https://stackoverflow.com/questions/28027330/html-email-ios-format-detection-->
+    <meta name="format-detection" content="telephone=no">
+
+<!--    https://www.w3schools.com/css/css_rwd_viewport.asp-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <title>S3++ 2019 ML Demo</title>
+
+<!--    https://getbootstrap.com/docs/4.3/getting-started/download/-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+
+
+<!--    https://katex.org/docs/autorender.html-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.js" integrity="sha384-9Nhn55MVVN0/4OFx7EE5kpFBPsEMZxKTCnA+4fqDmg12eCTqGi6+BB2LjY8brQxJ" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+
+<!--            https://honeywellaidc.force.com/supportppr/s/article/How-to-use-HTML5-to-capture-a-camera-image-->
+            <form action="/" method="post" enctype="multipart/form-data">
+                Upload image:<br>
+                <input name="image" type="file" accept="image/*" capture="camera">
+                <input type="submit" value="Submit">
+            </form>
+
+        </div>
+
+<!--        https://jinja.palletsprojects.com/en/2.10.x/-->
+        {% if result %}
+        <div class="col-12">
+            <strong>Problem:</strong> $$ {{ result.problem.latex }} $$<br>
+            <strong>Solution:</strong> $$ {{ result.solution.latex }} $$
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+</body>
+</html>
