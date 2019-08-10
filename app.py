@@ -8,13 +8,23 @@ app = flask.Flask(__name__)
 math_snapper = get_snapper()
 
 
-@app.route('/', methods=['GET', 'POST'])
-def home():
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+
+@app.route('/demo', methods=['GET', 'POST'])
+def demo():
     result = None
     if request.method == 'POST':
         buffer = request.files['image'].read()
         result = math_snapper.process(buffer)
-    return render_template('index.html', result=result)
+    return render_template('demo.html', result=result)
+
+
+@app.route('/annotator')
+def annotation():
+    return render_template('annotator/index.html')
 
 
 if __name__ == '__main__':

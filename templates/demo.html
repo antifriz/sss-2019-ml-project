@@ -10,7 +10,7 @@
     <!--    https://www.w3schools.com/css/css_rwd_viewport.asp-->
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-    <title>S3++ 2019 ML Project</title>
+    <title>S3++ 2019 ML Demo</title>
 
     <!--    https://getbootstrap.com/docs/4.3/getting-started/download/-->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -25,18 +25,40 @@
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
 
+
+    <!--    https://katex.org/docs/autorender.html-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css"
+          integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.js"
+            integrity="sha384-9Nhn55MVVN0/4OFx7EE5kpFBPsEMZxKTCnA+4fqDmg12eCTqGi6+BB2LjY8brQxJ"
+            crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/auto-render.min.js"
+            integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script>
+
 </head>
 <body>
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <h1>S3++ 2019 ML Project</h1>
-            <p>
-                <a class="btn btn-outline-secondary" href="https://www.icloud.com/keynote-live/sc:0FtbScdY3-LMp-NjmgtmvzxeRMoiLJq4yP84MMm7Fu1CUxI27WL03heXXPPWjzBnUz8">Live Presentation</a>
-                <a class="btn btn-outline-secondary" href="/demo">Demo</a>
-                <a class="btn btn-outline-secondary" href="/annotator">Annotator</a>
-            </p>
+
+            <!--            https://honeywellaidc.force.com/supportppr/s/article/How-to-use-HTML5-to-capture-a-camera-image-->
+            <form action="/demo" method="post" enctype="multipart/form-data">
+                Upload image:<br>
+                <input name="image" type="file" accept="image/*" capture="camera">
+                <input type="submit" value="Submit">
+            </form>
+
         </div>
+
+        <!--        https://jinja.palletsprojects.com/en/2.10.x/-->
+        {% if result %}
+        <div class="col-12">
+            <strong>Problem:</strong> $$ {{ result.problem.latex }} $$<br>
+            <strong>Solution:</strong> $$ {{ result.solution.latex }} $$
+        </div>
+        {% endif %}
+
     </div>
 </div>
 </body>
