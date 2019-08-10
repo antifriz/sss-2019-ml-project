@@ -68,5 +68,45 @@ docker run --rm -it -p 8080:80 app
 - [Tensorflow Keras Implementation](https://www.tensorflow.org/beta/tutorials/keras/basic_classification)
 - [PyTorch Implementation](https://github.com/pytorch/examples/blob/master/mnist/main.py)
 
+# Project
 
- 
+- Constructing Extraction & Solving Models
+- Evaluation
+
+## Extraction
+
+- Constructing OCR & Layouting Models
+- Evaluation
+
+### OCR
+
+- Constructing Localization & Classification Models
+- Evaluation
+
+#### Localization
+
+- Conversion to grayscale
+- Thresholding (binarization)
+- Morphological Transformations
+- Finding Connected Components
+- Postprocessing
+- Evaluation
+
+#### Classificaiton
+
+- Defining Supported Characters
+- Data Preparation
+- Learning Classification Model
+- Evaluation
+
+### Layouting
+
+- Preprocessing
+- Sorting
+- Parsing
+- Evaluation
+
+## Solving
+
+- SimPy or own?
+- Evaluation
