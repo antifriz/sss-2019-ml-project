@@ -20,11 +20,11 @@ docker run --rm -it -p 8080:80 app
 
 ## Puzzles
 
-- Factorize 245143486106224403217900081922883253630
-- 100000th smallest number of form `2^i * 3^j * 5 ^ k` (where `i`, `j`, `k` are nonnegative integers)
-- The Josephus Problem, 41 people, where to sit?
-- In how many ways can you write 100 parenthesis?
-- Prove that in any 6 people there exists 3 who either are all friends or all enemies. 
+1. Factorize 245143486106224403217900081922883253630
+2. 100000th smallest number of form `2^i * 3^j * 5 ^ k` (where `i`, `j`, `k` are nonnegative integers)
+3. The Josephus Problem, 41 people, where to sit?
+4. In how many ways can you write 100 parenthesis?
+5. Prove that in any 6 people there exists 3 who either are all friends or all enemies. 
 
 ## Python
 
