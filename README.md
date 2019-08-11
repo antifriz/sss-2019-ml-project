@@ -49,6 +49,10 @@ docker run --rm -it -p 8080:80 app
 - [BFS](https://www.geeksforgeeks.org/level-order-tree-traversal/) ✅
 - [Genetic Algorithm](https://blog.sicara.com/getting-started-genetic-algorithms-python-tutorial-81ffa1dd72f9) ✅
 
+### Tools
+
+- [Git Tutorial](https://git-scm.com/book/en/v2)
+
 ### Convolutional Neural Networks for Visual Recognition
 
 - [Image Classificaiton](http://cs231n.github.io/classification/)
