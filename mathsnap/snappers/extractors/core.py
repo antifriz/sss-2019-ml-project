@@ -1,4 +1,4 @@
-from typing import NamedTuple
+from typing import NamedTuple, Dict
 
 import numpy as np
 
@@ -9,6 +9,7 @@ from mathsnap.snappers.extractors.ocrs.core import OCR
 
 class ExtractorResult(NamedTuple):
     problem: MathExpression
+    images: Dict[str, str]
 
 
 class Extractor:
@@ -19,7 +20,8 @@ class Extractor:
 class DummyExtractor(Extractor):
     def process(self, image: np.ndarray) -> ExtractorResult:
         return ExtractorResult(
-            problem=math_expression_from_latex('5 + 5')
+            problem=math_expression_from_latex('5 + 5'),
+            images={},
         )
 
 
@@ -32,5 +34,6 @@ class OCRLayouterExtractor(Extractor):
         ocr_result = self._ocr.process(image)
         layouter_result = self._layouter.process(ocr_result.characters_with_bounding_boxes)
         return ExtractorResult(
-            problem=layouter_result.problem
+            problem=layouter_result.problem,
+            images=ocr_result.images,
         )

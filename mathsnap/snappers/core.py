@@ -1,4 +1,4 @@
-from typing import NamedTuple
+from typing import NamedTuple, Dict
 
 import numpy as np
 
@@ -11,6 +11,7 @@ from mathsnap.utils import decompress_image
 class SnapperResult(NamedTuple):
     problem: MathExpression
     solution: MathExpression
+    images: Dict[str, str]
 
 
 class Snapper:
@@ -28,6 +29,7 @@ class DummySnapper(Snapper):
         return SnapperResult(
             problem=math_expression_from_latex('4 + 2'),
             solution=math_expression_from_latex('$$ 6 $$'),
+            images={},
         )
 
 
@@ -42,4 +44,5 @@ class ExtractorSolverSnapper(Snapper):
         return SnapperResult(
             problem=extractor_result.problem,
             solution=solver_result.solution,
+            images=extractor_result.images
         )

@@ -1,8 +1,9 @@
-from typing import NamedTuple, Sequence
+from typing import NamedTuple, Sequence, Dict
 import cv2
 import numpy as np
 
 from mathsnap.snappers.extractors.geometry import BoundingBox, _box_from_bounding_rect
+from mathsnap.utils import convert_to_datauri
 
 
 class Detection(NamedTuple):
@@ -12,6 +13,7 @@ class Detection(NamedTuple):
 
 class DetectorResult(NamedTuple):
     detections: Sequence[Detection]
+    images: Dict[str, str]
 
 
 class Detector:
@@ -32,8 +34,12 @@ class DummyDetector(Detector):
                         y1=4,
                     )
                 ),
-            ]
+            ],
+            images={},
         )
+
+def _make_detection_image(img, detections):
+    return img
 
 
 class GreedyDetector(Detector):
@@ -54,12 +60,16 @@ class GreedyDetector(Detector):
     def process(self, image: np.ndarray) -> DetectorResult:
         bounding_boxes = self.box_detection(image)
 
-        _detections = [
+        detections = [
             Detection(
                 image=image[b.x0:b.x1, b.y0:b.y1],
                 bounding_box=b
             )
             for b in bounding_boxes]
 
-        result = DetectorResult(detections=_detections)
-        return result
+        return DetectorResult(
+            detections=detections,
+            images={
+                "detections": convert_to_datauri(_make_detection_image(image, detections)),
+            }
+        )

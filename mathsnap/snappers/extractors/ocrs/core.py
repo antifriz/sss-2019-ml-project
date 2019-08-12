@@ -1,4 +1,4 @@
-from typing import NamedTuple, Sequence
+from typing import NamedTuple, Sequence, Dict
 
 import numpy as np
 
@@ -9,6 +9,7 @@ from mathsnap.snappers.extractors.ocrs.detectors.core import Detector
 
 class OCRResult(NamedTuple):
     characters_with_bounding_boxes: Sequence[CharacterWithBoundingBox]
+    images: Dict[str, str]
 
 
 class OCR:
@@ -29,7 +30,8 @@ class DummyOCR(OCR):
                         y1=4,
                     )
                 )
-            ]
+            ],
+            images={},
         )
 
 
@@ -39,12 +41,14 @@ class DetectorClassifierOCR(OCR):
         self._classifier = classifier
 
     def process(self, image: np.ndarray) -> OCRResult:
+        detection_result = self._detector.process(image)
         return OCRResult(
             characters_with_bounding_boxes=[
                 CharacterWithBoundingBox(
                     character=self._classifier.process(detection.image).label,
                     bounding_box=detection.bounding_box
                 )
-                for detection in self._detector.process(image).detections
+                for detection in detection_result.detections
             ],
+            images=detection_result.images
         )

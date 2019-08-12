@@ -11,7 +11,7 @@ class BoundingBox(NamedTuple):
     y1: float  # | ---------------(x1, y1)
 
 
-def _box_from_bounding_rect(self, rect) -> BoundingBox:
+def _box_from_bounding_rect(rect) -> BoundingBox:
     return BoundingBox(
         x0=rect[0],
         x1=rect[0] + rect[2],
