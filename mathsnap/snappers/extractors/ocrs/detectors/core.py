@@ -5,6 +5,7 @@ import numpy as np
 from mathsnap.snappers.extractors.geometry import BoundingBox
 
 
+
 class Detection(NamedTuple):
     image: np.ndarray
     bounding_box: BoundingBox
@@ -34,3 +35,19 @@ class DummyDetector(Detector):
                 ),
             ]
         )
+
+
+class GreedyDetector(Detector):
+
+    def process(self, image: np.ndarray) -> DetectorResult:
+        boundingBoxes= []
+
+        _detections = [
+            Detection(
+                image=image[x:x + w, y:y + h],
+                bounding_box=BoundingBox(left=x, top=y, right=x + w, bottom=y + h)
+            )
+            for x, y, w, h in boundingBoxes]
+
+        result = DetectorResult(detections=_detections)
+        return result
