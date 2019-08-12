@@ -23,10 +23,10 @@ class DummyOCR(OCR):
                 CharacterWithBoundingBox(
                     character='2',
                     bounding_box=BoundingBox(
-                        left=1,
-                        top=2,
-                        right=3,
-                        bottom=4,
+                        x0=1,
+                        y0=2,
+                        x1=3,
+                        y1=4,
                     )
                 )
             ]
