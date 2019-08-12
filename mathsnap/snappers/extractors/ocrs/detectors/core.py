@@ -38,7 +38,7 @@ class DummyDetector(Detector):
 
 class GreedyDetector(Detector):
 
-    def box_detection(self, img: np.ndarray) -> BoundingBox:
+    def box_detection(self, img: np.ndarray) -> [BoundingBox]:
         magic_threshold = 130
 
         kernel = np.ones((20, 20), 'uint8')
