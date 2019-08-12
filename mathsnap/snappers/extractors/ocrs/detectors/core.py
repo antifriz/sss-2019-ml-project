@@ -38,7 +38,10 @@ class DummyDetector(Detector):
             images={},
         )
 
-def _make_detection_image(img, detections):
+
+def _make_detection_image(img, detected_boxes: [BoundingBox]):
+    for box in detected_boxes:
+        cv2.rectangle(img, (box.x0, box.y0), (box.x1, box.y1), (0, 255, 0), 2)
     return img
 
 
@@ -70,6 +73,6 @@ class GreedyDetector(Detector):
         return DetectorResult(
             detections=detections,
             images={
-                "detections": convert_to_datauri(_make_detection_image(image, detections)),
+                "detections": convert_to_datauri(_make_detection_image(image, bounding_boxes)),
             }
         )
