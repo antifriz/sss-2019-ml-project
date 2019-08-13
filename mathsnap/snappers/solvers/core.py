@@ -17,3 +17,8 @@ class DummySolver(Solver):
         return SolverResult(
             solution=math_expression_from_latex('42')
         )
+
+
+class EvalSolver(Solver):
+    def process(self, problem: MathExpression) -> SolverResult:
+        return eval(problem.latex);
