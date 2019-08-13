@@ -21,4 +21,9 @@ class DummySolver(Solver):
 
 class EvalSolver(Solver):
     def process(self, problem: MathExpression) -> SolverResult:
-        return eval(problem.latex);
+        try:
+            return SolverResult(solution=math_expression_from_latex(eval(problem.latex)))
+        except SyntaxError:
+            return SolverResult(solution=math_expression_from_latex("Syntax Error"))
+        except:
+            return SolverResult(solution=math_expression_from_latex("Error"))
