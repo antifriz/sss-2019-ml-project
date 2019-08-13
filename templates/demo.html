@@ -55,7 +55,8 @@
         {% if result %}
         <div class="col-12">
             <strong>Problem:</strong> $$ {{ result.problem.latex }} $$<br>
-            <strong>Solution:</strong> $$ {{ result.solution.latex }} $$
+            <strong>Solution:</strong> $$ {{ result.solution.latex }} $$<br>
+            <img src="{{ result.images.detections }}" width="100%"/>
         </div>
         {% endif %}
 
