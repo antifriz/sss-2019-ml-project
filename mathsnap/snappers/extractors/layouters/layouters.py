@@ -25,12 +25,12 @@ class DummyLayouter(Layouter):
 class BasicLayouter(Layouter):
 
     def process(self, characters_with_bounding_boxes: Sequence[CharacterWithBoundingBox]) -> LayouterResult:
-        string = ""
-
         characters_with_bounding_boxes.sort(key=lambda box: box.bounding_box.x0)
 
+        string = ""
         for c in characters_with_bounding_boxes:
             string = string + c.character
+
         return LayouterResult(
             problem=math_expression_from_latex(string)
         )

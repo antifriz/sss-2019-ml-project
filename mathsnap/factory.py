@@ -1,10 +1,10 @@
-from mathsnap.snappers.core import Snapper, ExtractorSolverSnapper, DummySnapper
+from mathsnap.snappers.core import Snapper, ExtractorSolverSnapper
 from mathsnap.snappers.extractors.core import OCRLayouterExtractor
 from mathsnap.snappers.extractors.layouters.layouters import BasicLayouter
 from mathsnap.snappers.extractors.ocrs.classifiers.core import KerasClassifier
 from mathsnap.snappers.extractors.ocrs.core import DetectorClassifierOCR
 from mathsnap.snappers.extractors.ocrs.detectors.core import GreedyDetector
-from mathsnap.snappers.solvers.core import DummySolver
+from mathsnap.snappers.solvers.core import EvalSolver
 
 
 def get_snapper() -> Snapper:
@@ -16,5 +16,5 @@ def get_snapper() -> Snapper:
             ),
             layouter=BasicLayouter(),
         ),
-        solver=DummySolver(),
+        solver=EvalSolver(),
     )
