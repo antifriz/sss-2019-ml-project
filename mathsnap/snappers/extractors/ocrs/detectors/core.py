@@ -65,7 +65,7 @@ class GreedyDetector(Detector):
 
         detections = [
             Detection(
-                image=image[b.x0:b.x1, b.y0:b.y1],
+                image=image[b.y0:b.y1, b.x0:b.x1],
                 bounding_box=b
             )
             for b in bounding_boxes]
