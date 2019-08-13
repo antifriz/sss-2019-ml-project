@@ -7,8 +7,6 @@ app = flask.Flask(__name__)
 
 math_snapper = get_snapper()
 
-# TODO: START!!!!
-
 @app.route('/')
 def index():
     return render_template('index.html')
