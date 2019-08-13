@@ -48,17 +48,23 @@ def _make_detection_image(img, detected_boxes: [BoundingBox]):
 class GreedyDetector(Detector):
 
     def box_detection(self, img: np.ndarray) -> [BoundingBox]:
-        magic_threshold = 130
+        # denoising
+        dst = cv2.fastNlMeansDenoising(img, h=6)
 
-        kernel = np.ones((20, 20), 'uint8')
-        ret, thresh = cv2.threshold(img, magic_threshold, 255, cv2.THRESH_BINARY)
+        # binarize
+        magic_threshold = 130
+        ret, thresh = cv2.threshold(dst, magic_threshold, 255, cv2.THRESH_BINARY)
 
         # Morph transformation
+        kernel = np.ones((20, 20), 'uint8')
         thresh = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel)
 
         contours = cv2.findContours(thresh, 1, 2)[0][:-1]  # Remove last one because it's the whole image border.
 
-        return [_box_from_bounding_rect(cv2.boundingRect(c)) for c in contours]
+        return [
+            _box_from_bounding_rect(cv2.boundingRect(c))
+            for c in contours
+        ]
 
     def process(self, image: np.ndarray) -> DetectorResult:
         bounding_boxes = self.box_detection(image)
