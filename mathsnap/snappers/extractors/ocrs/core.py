@@ -3,7 +3,7 @@ from typing import NamedTuple, Sequence, Dict
 import numpy as np
 
 from mathsnap.snappers.extractors.geometry import CharacterWithBoundingBox, BoundingBox
-from mathsnap.snappers.extractors.ocrs.classifiers.core import Classifier
+from mathsnap.snappers.extractors.ocrs.classifiers.core import Classifier, ClassifierResult
 from mathsnap.snappers.extractors.ocrs.detectors.core import Detector
 
 
@@ -42,13 +42,22 @@ class DetectorClassifierOCR(OCR):
 
     def process(self, image: np.ndarray) -> OCRResult:
         detection_result = self._detector.process(image)
-        return OCRResult(
-            characters_with_bounding_boxes=[
+
+        characters = []
+        c_images = []
+        for detection in detection_result.detections:
+            c_result = self._classifier.process(detection.image)
+            c_images.append(c_result.image)
+            characters.append(
                 CharacterWithBoundingBox(
-                    character=self._classifier.process(detection.image).label,
+                    character=c_result.label,
                     bounding_box=detection.bounding_box
-                )
-                for detection in detection_result.detections
-            ],
-            images=detection_result.images
+                ))
+
+        images = detection_result.images
+        images["classifier"] = c_images
+
+        return OCRResult(
+            characters_with_bounding_boxes=characters,
+            images=images
         )
