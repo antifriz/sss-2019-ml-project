@@ -44,6 +44,7 @@ def _make_detection_image(img, detected_boxes: [BoundingBox]):
         cv2.rectangle(img, (box.x0, box.y0), (box.x1, box.y1), (0, 255, 0), 2)
     return img
 
+# TODO: Improve Detecter
 
 class GreedyDetector(Detector):
 

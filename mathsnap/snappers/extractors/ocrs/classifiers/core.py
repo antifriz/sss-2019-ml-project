@@ -23,9 +23,7 @@ class DummyClassifier(Classifier):
         )
 
 
-# TODO : Improve resizing
-# TODO : get prediction
-# TODO : Signs
+# TODO: Equalize amount of samples for each symbol - np.repeat
 
 class KerasClassifier(Classifier):
     def __init__(self, file_name: str):
@@ -34,7 +32,7 @@ class KerasClassifier(Classifier):
         self.graph = tf.get_default_graph()
 
     def process(self, image: np.ndarray) -> ClassifierResult:
-        img = cv2.resize(image, (20, 20))
+        img = cv2.resize(image, (20, 20)) # TODO: keep ratio!!!
         img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, 21, 10)
         img = cv2.copyMakeBorder(img, 4, 4, 4, 4, cv2.BORDER_CONSTANT, value=0)
 
@@ -42,10 +40,12 @@ class KerasClassifier(Classifier):
 
         img = img[np.newaxis, :, :, np.newaxis]
 
-        string = "0123456789-+"
+        string = "0123456789+-/*"
 
         with self.graph.as_default():
             predictions = self.model.predict(img, 1)[0]
+
+        print(predictions)
 
         index = np.argmax(predictions)
         prediction = string[index]
