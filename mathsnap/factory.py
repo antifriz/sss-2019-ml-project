@@ -12,7 +12,7 @@ def get_snapper() -> Snapper:
         extractor=OCRLayouterExtractor(
             ocr=DetectorClassifierOCR(
                 detector=GreedyDetector(),
-                classifier=KerasClassifier("res/keras.h5"),
+                classifier=KerasClassifier("res/keras2_1.h5"),
             ),
             layouter=BasicLayouter(),
         ),
