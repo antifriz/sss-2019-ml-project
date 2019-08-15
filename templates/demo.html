@@ -57,6 +57,11 @@
             <strong>Problem:</strong> $$ {{ result.problem.latex }} $$<br>
             <strong>Solution:</strong> $$ {{ result.solution.latex }} $$<br>
             <img src="{{ result.images.detections }}" width="100%"/>
+
+            {% for res in result.images.classifier %}
+                <img src="{{ res }}" width="84px"/>
+            {% endfor %}
+
         </div>
         {% endif %}
 
