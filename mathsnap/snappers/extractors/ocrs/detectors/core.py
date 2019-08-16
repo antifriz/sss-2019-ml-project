@@ -41,18 +41,26 @@ class DummyDetector(Detector):
 
 def _make_detection_image(img, detected_boxes: [BoundingBox]):
     for box in detected_boxes:
-        cv2.rectangle(img, (box.x0, box.y0), (box.x1, box.y1), (0, 255, 0), 2)
+        padding=5
+        cv2.rectangle(img, (box.x0-padding, box.y0-padding), (box.x1+padding, box.y1+padding), (0, 255, 0), 2)
     return img
 
 # TODO: Improve Detecter
 
+
 class GreedyDetector(Detector):
-    def remove_overlapping_boxes(boxes):
-        boxes = sorted(boxes, key=lambda x: x[2] * x[3], reverse=True)
+    def overlap(self, box_i: BoundingBox, box_j: BoundingBox) -> int:
+        x_o = max(min(box_i.x1, box_j.x1) - max(box_i.x0, box_j.x0), 0)
+        y_o = max(min(box_i.y1, box_j.y1) - max(box_i.y0, box_j.y0), 0)
+        o = x_o * y_o
+        return o
+
+    def nms(self, boxes: [BoundingBox]) -> [BoundingBox]:
+        boxes = sorted(boxes, key=lambda x: (x.x1 - x.x0) * (x.y1 - x.y0), reverse=True)
         new_boxes = []
         for i, box_i in enumerate(boxes):
             for box_j in boxes[0:i]:
-                if overlap(box_i, box_j) > 0:
+                if self.overlap(box_i, box_j) > 0:
                     break
             else:
                 new_boxes.append(box_i)
@@ -66,16 +74,21 @@ class GreedyDetector(Detector):
         magic_threshold = 130
         ret, thresh = cv2.threshold(dst, magic_threshold, 255, cv2.THRESH_BINARY)
 
+
+
+        # thresh = cv2.adaptiveThreshold(dst, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, max(img.shape)//2*2+1, 20)
         # Morph transformation
         kernel = np.ones((20, 20), 'uint8')
         thresh = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel)
 
         contours = cv2.findContours(thresh, 1, 2)[0][:-1]  # Remove last one because it's the whole image border.
 
-        return [
-            _box_from_bounding_rect(cv2.boundingRect(c))
-            for c in contours
-        ]
+        return self.nms (
+            [
+                _box_from_bounding_rect(cv2.boundingRect(c))
+                for c in contours
+            ]
+        )
 
     def process(self, image: np.ndarray) -> DetectorResult:
         bounding_boxes = self.box_detection(image)
