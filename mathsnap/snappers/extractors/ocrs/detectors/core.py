@@ -47,6 +47,16 @@ def _make_detection_image(img, detected_boxes: [BoundingBox]):
 # TODO: Improve Detecter
 
 class GreedyDetector(Detector):
+    def remove_overlapping_boxes(boxes):
+        boxes = sorted(boxes, key=lambda x: x[2] * x[3], reverse=True)
+        new_boxes = []
+        for i, box_i in enumerate(boxes):
+            for box_j in boxes[0:i]:
+                if overlap(box_i, box_j) > 0:
+                    break
+            else:
+                new_boxes.append(box_i)
+        return new_boxes
 
     def box_detection(self, img: np.ndarray) -> [BoundingBox]:
         # denoising
