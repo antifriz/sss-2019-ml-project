@@ -66,6 +66,13 @@ class GreedyDetector(Detector):
                 new_boxes.append(box_i)
         return new_boxes
 
+    def remove_small_boxes(self, boxes: [BoundingBox]) -> [BoundingBox]:
+        _b = []
+        for x in boxes:
+            if (x.x1 - x.x0) * (x.y1 - x.y0) > 100:
+                _b.append(x)
+        return _b
+
     def box_detection(self, img: np.ndarray) -> [BoundingBox]:
         # denoising
         dst = cv2.fastNlMeansDenoising(img, h=6)
@@ -74,23 +81,27 @@ class GreedyDetector(Detector):
         magic_threshold = 130
         ret, thresh = cv2.threshold(dst, magic_threshold, 255, cv2.THRESH_BINARY)
 
-
-
-        # thresh = cv2.adaptiveThreshold(dst, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, max(img.shape)//2*2+1, 20)
+        # thresh = cv2.adaptiveThreshold(dst, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, , 20)
         # Morph transformation
         kernel = np.ones((20, 20), 'uint8')
         thresh = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel)
 
+
+        # Boxes
         contours = cv2.findContours(thresh, 1, 2)[0][:-1]  # Remove last one because it's the whole image border.
 
         return self.nms (
-            [
-                _box_from_bounding_rect(cv2.boundingRect(c))
-                for c in contours
-            ]
+            self.remove_small_boxes(
+                [
+                    _box_from_bounding_rect(cv2.boundingRect(c))
+                    for c in contours
+                ]
+            )
         )
 
     def process(self, image: np.ndarray) -> DetectorResult:
+        image = cv2.resize(image, (1024, int(image.shape[0]/image.shape[1]*1024)) )
+
         bounding_boxes = self.box_detection(image)
 
         detections = [
