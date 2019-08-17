@@ -40,10 +40,11 @@ class DummyDetector(Detector):
 
 
 def _make_detection_image(img, detected_boxes: [BoundingBox]):
+    img_with_boxes = img.copy()
     for box in detected_boxes:
-        padding=5
-        cv2.rectangle(img, (box.x0-padding, box.y0-padding), (box.x1+padding, box.y1+padding), (0, 255, 0), 2)
-    return img
+        padding=2
+        cv2.rectangle(img_with_boxes, (box.x0-padding, box.y0-padding), (box.x1+padding, box.y1+padding), (0, 255, 0), 2)
+    return img_with_boxes
 
 # TODO: Improve Detecter
 
@@ -69,7 +70,8 @@ class GreedyDetector(Detector):
     def remove_small_boxes(self, boxes: [BoundingBox]) -> [BoundingBox]:
         _b = []
         for x in boxes:
-            if (x.x1 - x.x0) * (x.y1 - x.y0) > 100:
+            # print((x.x1 - x.x0) * (x.y1 - x.y0))
+            if (x.x1 - x.x0) * (x.y1 - x.y0) > 150:
                 _b.append(x)
         return _b
 
