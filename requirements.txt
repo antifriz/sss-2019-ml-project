@@ -1,6 +1,6 @@
 flask==1.1.1
 numpy==1.17.0
-opencv-python-headless==4.1.0.25
+opencv-python-headless==4.2.0.32
 keras
 tensorflow
 scipy
